@@ -8,7 +8,20 @@
     <%-  include('./partials/nav') %>  
     <h1 style="margin-top: 2%; text-align: center;">Home page</h1>
 
-    <%= JSON.stringify(user) %>
+    <div class="container mt-3">
+        <% blogs.forEach(blog => { %>
+            <div class="card" style="width: 18rem; margin: 2%; float: left;">
+                <img src="<%= blog.image %>" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title"><%= blog.title %></h5>
+                  <p class="card-text"><%= blog.content.slice(0,75)+' ...' %></p>
+                  <a href="/blog/one-blog<%=blog._id%>" class="btn btn-primary">View</a>
+                </div>
+              </div>
+        <% }) %>
+    </div>
+
+
 
     <%-  include('./partials/script') %>  
 </body>

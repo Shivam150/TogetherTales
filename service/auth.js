@@ -11,7 +11,8 @@ const userAuth = async (req, res, next) => {
         // verify the token
         let decodedData = await Utility.verifyToken(getToken); 
         req.user = decodedData;
-        console.log('User Authenticated',decodedData);
+        console.log('User Authenticated',decodedData._id);
+        console.log("userdata: ",req.user._id);
         next();
     } catch (error) {
       console.log(error);

@@ -15,7 +15,7 @@ let blogSchema = new mongoose.Schema({
     },
     image: {
         type:String,
-        default:""
+        default:"Nothing"
     },
     isDeleted: {
         type: Boolean,
