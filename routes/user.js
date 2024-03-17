@@ -13,5 +13,6 @@ userRouter.get( "/login", ( req, res )=> {
 
 userRouter.post("/signup", controller.signUp);
 userRouter.post("/login", controller.signIn);
+userRouter.get("/logout", controller.logOut);
 
 module.exports = userRouter;

@@ -21,15 +21,15 @@ const signUp = async (req,res) => {
 }
 
 
-async function _doLogin(user, data) {
-     
-    if (user) {
-      user = JSON.parse(JSON.stringify(user));
-    }
+async function _doLogin(user,data) {
+    data = {
+        _id:  user._id,
+        email: user.email,
+        role: user.role
+    };
 
     user = await userModel.findOne({ _id: user._id }).lean();
-    user.token = await Utility.jwtSign({_id: user._id, role: "user", email: user.email,});
-    user.type = "Bearer";
+    user.token = await Utility.jwtSign(data);
     return user;
   }
 
@@ -45,12 +45,10 @@ const signIn = async (req,res) => {
         };
 
         let user = await userModel.findOne(qry, {password: 1}).lean();
-        // console.log("user password:===",user.password);
 
         if(!user){
             res.render("login", {message: 'Invalid Username'});
         }
-
 
         let match = await  Utility.comparePasswordUsingBcrypt(plainPassword, user.password);
 
@@ -58,20 +56,33 @@ const signIn = async (req,res) => {
             res.render("login", {message: 'Invalid Password'});
         }
         user = await userModel.findOne({_id: user._id});
-        if(user){
-            user = await _doLogin(user, data);
-            return res.redirect("/");
-        }else {
-            res.render("login", {message: 'Server Error!'});
-        }
+         
+        user = await _doLogin(user, data);
+        console.log("user====:",user);
+        return res.cookie("token",user.token).redirect("/");
         // creation of token and set it to the cookie  will be handled here for authentication purpose .
         // return user will go here, this for separate backend  from frontend.
     } catch (error) {
         console.log(error);
+        res.render("login", {message: 'Server Error!'});
     }
 }
+
+const logOut = async (req,res)=> {
+    try {
+        res.clearCookie("token").redirect("/");
+    } catch (error) {
+        
+    }
+}
+
+
+
+
+
 
 module.exports = {
     signUp,
     signIn,
+    logOut,
 }

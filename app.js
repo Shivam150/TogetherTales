@@ -5,10 +5,14 @@ const app =   express();
 const port  =   process.env.PORT || 8000;
 const connection  = require("./connect/connect");
 const http = require( 'http' );
+const cookieParser =  require('cookie-parser');
+const auth =  require('./service/auth');
 
 const userRouter = require("./routes/user") ;
+const blogRouter = require("./routes/blog");
 app.use(express.json());  // 
 app.use(express.urlencoded({ extended: false }));  // To handle form data.
+app.use(cookieParser());// middleware to parse cookies and assign them to req.cookies
 
 
 app.set("view engine" , "ejs");
@@ -16,12 +20,14 @@ app.set("views" , path.resolve("./views"));
 
 let Server  = http.createServer(app);
 
-app.get("/",  (req,res) => {
-    res.render("Home");
+app.get("/", auth.userAuth,  (req,res) => {
+    res.render("Home", {
+        user: req.user,
+    });
 })
 
-
-app.use("/blog/user", userRouter);
+app.use("/user", userRouter);
+app.use("/blog", blogRouter);
 
 
 Server.listen(port , async () => {
