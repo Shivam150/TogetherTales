@@ -26,7 +26,8 @@ blogRouter.get("/add-blog", Middleware.userAuth, (req,res) => {
 
 blogRouter.post("/add-blog", Middleware.userAuth, upload.single("image") , controller.createBlog);
 // get blog by id 
-blogRouter.get('/one-Blog:_id',Middleware.userAuth, controller.getBlog);
+blogRouter.get("/one-Blog:_id",Middleware.userAuth, controller.getBlog);
+blogRouter.post("/comment/:blogId", Middleware.userAuth, controller.addComment);
 
 // get all the blogs from the database and send them to the client side
 // blogRouter.get("/", controller.getAllBlogs);

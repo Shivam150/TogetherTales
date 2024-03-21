@@ -45,10 +45,13 @@ const getBlog = async (req,res) => {
     try {
         console.log("params id===:", req.params._id);
         let blog = await blogModel.findById({_id: req.params._id}).populate('author');
+        let comments = await commentModel.find({blogId : req.params._id }).populate("createdBy");
         console.log("One blog====:",blog);
+        console.log("comments======: ", comments);
         return res.render("Blog", {
             user: req.user,
             blog,
+            comments,
             moment: moment
         });
     } catch (error) {
@@ -60,11 +63,11 @@ const getBlog = async (req,res) => {
 const addComment = async (req,res) => {
     try {
         req.body.createdBy = req.user._id;
-        req.body.blogId = req.blog._id;
+        req.body.blogId = req.params.blogId;
         let data = req.body;
         const comment = await commentModel.create(data);
         console.log("comment===========",comment);
-        return res.redirect(`/blog/${req.params.blogId}`);
+        return res.redirect(`/blog/one-blog${req.params.blogId}`);
     } catch (error) {
         
     }

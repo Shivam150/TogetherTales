@@ -20,19 +20,27 @@
     </div>
 
     <div class="container mt-4">
-        <h1>Comments</h1>
+        <h1>Comments(<%= comments.length %>)</h1>
         <% if (locals.user) { %>
-            <form action="/blog/comment/${blog._id}" method="post">
+            <form action="/blog/comment/<%=blog._id%>"  method="post">  
              
                 <div class="mb-3">
                     <textarea class="form-control" name="content" placeholder="Type your comment here" id="content"></textarea>
                 </div>
                 <div class="mb-3 text-center">
-                    <button class="btn btn-primary" type="submit">Submit</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
             </form>
         <% } %>
-        
+        <div class="container mt-3">
+            <% comments.forEach(comment => { %>
+                <img src="<%= comment.createdBy.profileImage %>" width="30px"  height="30px"> <%= comment.createdBy.fullName %> 
+                <!--  Display each comment -->
+                <div class="container mt-2">
+                    <p><%= comment.content %></p>
+                </div>
+            <% }) %>
+        </div>
     </div>
 
 
