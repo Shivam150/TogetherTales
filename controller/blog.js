@@ -1,6 +1,7 @@
 const Utility = require("../Utility/utility");
 const blogModel = require("../models/blog");
 const mongoose  = require('mongoose');
+const commentModel = require("../models/comment");
 const ObjectId  = mongoose.Types.ObjectId;
 
 const moment = require('moment');
@@ -43,7 +44,7 @@ const  getAllBlogs = async (req,res)=> {
 const getBlog = async (req,res) => {
     try {
         console.log("params id===:", req.params._id);
-        let blog = await blogModel.findById({_id: req.params._id});
+        let blog = await blogModel.findById({_id: req.params._id}).populate('author');
         console.log("One blog====:",blog);
         return res.render("Blog", {
             user: req.user,
@@ -53,6 +54,19 @@ const getBlog = async (req,res) => {
     } catch (error) {
         console.log(error);
         res.render("Blog", {error});
+    }
+}
+
+const addComment = async (req,res) => {
+    try {
+        req.body.createdBy = req.user._id;
+        req.body.blogId = req.blog._id;
+        let data = req.body;
+        const comment = await commentModel.create(data);
+        console.log("comment===========",comment);
+        return res.redirect(`/blog/${req.params.blogId}`);
+    } catch (error) {
+        
     }
 }
 
@@ -66,6 +80,7 @@ module.exports = {
     createBlog,
     getAllBlogs,
     getBlog,
+    addComment,
 }
 
 // '/upload/1710692030370-BitBank_15_11zon.jpg',

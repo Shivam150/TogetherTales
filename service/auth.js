@@ -16,6 +16,8 @@ const userAuth = async (req, res, next) => {
         next();
     } catch (error) {
       console.log(error);
+      // alert("Please Login.");
+      // return res.render("login");
     }
   };
 

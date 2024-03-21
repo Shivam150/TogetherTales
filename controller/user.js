@@ -3,10 +3,12 @@ const userModel = require("../models/user");
 
 const signUp = async (req,res) => {
     try {
+        req.body.profileImage = `/images/${req.file.filename}`;
         const data = req.body;
         data.password = await Utility.hashed_password(data.password);
         // find user to check if already exists or not 
         let user = await userModel.findOne({email:data.email , isDeleted: false});
+        console.log("User======:", user);
 
         if(!user){
             user = await userModel.create(data);
@@ -25,6 +27,7 @@ async function _doLogin(user,data) {
     data = {
         _id:  user._id,
         email: user.email,
+        fullName: user.fullName,
         role: user.role
     };
 

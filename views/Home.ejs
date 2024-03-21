@@ -6,7 +6,9 @@
 </head>
 <body>
     <%-  include('./partials/nav') %>  
-    <h1 style="margin-top: 2%; text-align: center;">Home page</h1>
+    <!-- //modify h1 to check if user is true then print name other wise just  show "Hello Guest" -->
+    <h1 style="margin-top: 2%; text-align: center;"><%- (user && `Hello ${user.fullName}`) || 'Hello Guest' %></h1>
+    <h2 style="margin-top: 2%; text-align: center; color:chartreuse;">Welcome to TogetherTales </h2>
 
     <div class="container mt-3">
         <% blogs.forEach(blog => { %>

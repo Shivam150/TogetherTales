@@ -13,7 +13,7 @@ let userSchema = new mongoose.Schema({
     },
     profileImage : {
         type: String,
-        default : "/images/default.jpg",
+        default : "/upload/1710688195502-MyProfile.jpg",
     },
     role: {
          type: String ,  // admin or user
