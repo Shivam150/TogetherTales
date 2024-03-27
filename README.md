@@ -20,17 +20,16 @@ git clone https://github.com/your-username/togetherTales.git
 # Navigate to the project directory:
 cd togetherTales
 # Install dependencies:
-npm install
-Set up environment variables:
-
-# Create a .env file in the root directory and add the following variables:
-PORT=3000
-MONGODB_URI=your_mongodb_connection_uri
-JWT_SECRET=your_jwt_secret_key
+npm install /n
+# Set up environment variables:
+Create a .env file in the root directory and add the following variables:
+PORT=3000 /n
+MONGODB_URI=your_mongodb_connection_uri /n
+JWT_SECRET=your_jwt_secret_key /n
 Replace your_mongodb_connection_uri with your MongoDB connection URI and your_jwt_secret_key with a secret key for JWT token generation.
 
 # Start the server:
-npm start
+npm start /n
 Access the application in your web browser at http://localhost:3000.
 
 Usage
